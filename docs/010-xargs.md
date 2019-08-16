@@ -109,6 +109,40 @@ c
 ```
 ## -n 参数
 
+## -I 参数
+> 如果xargs要将命令行参数传给多个命令，可以使用-I参数。
+
+-I指定每一项命令行参数的替代字符串。
+
+```shell
+$ cat foo.txt
+one
+two
+three
+
+$ cat foo.txt | xargs -I file sh -c 'echo file; mkdir file'
+one 
+two
+three
+
+$ ls 
+one two three
+```
+
+上面代码中，foo.txt是一个三行的文本文件。我们希望对每一项命令行参数，执行两个命令（echo和mkdir），使用-I file表示file是命令行参数的替代字符串。执行命令时，具体的参数会替代掉echo file; mkdir file里面的两个file。
+
+
+## --max-procs 参数
+> xargs默认只用一个进程执行命令。如果命令要执行多次，必须等上一次执行完，才能执行下一次。
+~~~
+--max-procs参数指定同时用多少个进程并行执行命令。--max-procs 2表示同时最多使用两个进程，--max-procs 0表示不限制进程数。
+~~~
+
+```shell
+$ docker ps -q | xargs -n 1 --max-procs 0 docker kill
+```
+上面命令表示，同时关闭尽可能多的 Docker 容器，这样运行速度会快很多。
+
 
 ## resources
 - http://www.ruanyifeng.com/blog/2019/08/xargs-tutorial.html
