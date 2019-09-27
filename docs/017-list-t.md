@@ -5,6 +5,12 @@
 ls -t build* | head -1
 ```
 
+## get latest file
+```shell
+target=$(ls -t build* | head -1)
+echo $target
+```
+
 ## case
 ~~~
 tss@VM-0-210-ubuntu:~/releases/article-render$ ll
